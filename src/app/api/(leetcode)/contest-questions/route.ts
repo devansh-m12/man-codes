@@ -1,5 +1,3 @@
-import { title } from "process";
-
 export async function POST(request: Request, response: Response) {
     try {
         const {slug} = await request.json();
@@ -11,9 +9,26 @@ export async function POST(request: Request, response: Response) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "operationName": "mostRecentPastContest",
-                    "variables": {},
-                    "query": "query mostRecentPastContest {\n  pastContests(pageNo: 1, numPerPage: 10) {\n    data {\n      title\n      titleSlug\n      questions {\n        titleSlug\n        __typename\n   credit\n    title\n    }\n      __typename\n    }\n    __typename\n  }\n}\n"
+                    operationName: "mostRecentPastContest",
+                    variables: {},
+                    query: `
+                        query mostRecentPastContest {
+                            pastContests(pageNo: 1, numPerPage: 10) {
+                                data {
+                                    title
+                                    titleSlug
+                                    questions {
+                                        titleSlug
+                                        __typename
+                                        credit
+                                        title
+                                    }
+                                    __typename
+                                }
+                                __typename
+                            }
+                        }
+                    `
                 })
             });
             const contests = await data.json();
@@ -36,7 +51,6 @@ export async function POST(request: Request, response: Response) {
                     title: q.title
                 }))
             };
-            console.log(formattedContest);
             // Return the data
             return Response.json({
                 contest: formattedContest,

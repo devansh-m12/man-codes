@@ -6,11 +6,25 @@ export async function GET(request: Request) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "query": "\n    query pastContests($pageNo: Int, $numPerPage: Int) {\n  pastContests(pageNo: $pageNo, numPerPage: $numPerPage) {\n    pageNum\n    currentPage\n    totalNum\n    numPerPage\n    data {\n      title\n      titleSlug\n   }\n  }\n}\n    ",
-                "variables": {
-                    "pageNo": 1
+                query: `
+                    query pastContests($pageNo: Int, $numPerPage: Int) {
+                        pastContests(pageNo: $pageNo, numPerPage: $numPerPage) {
+                            pageNum
+                            currentPage
+                            totalNum
+                            numPerPage
+                            data {
+                                title
+                                titleSlug
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    pageNo: 1,
+                    numPerPage: 10
                 },
-                "operationName": "pastContests"
+                operationName: "pastContests"
             })
         });
         const response = await data.json();
